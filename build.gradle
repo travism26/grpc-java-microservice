@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'com.google.protobuf'
+apply plugin: 'application'
 
 
 group 'com.github.grpc'
@@ -42,4 +43,13 @@ protobuf {
             grpc {}
         }
     }
+}
+
+application {
+    mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
+}
+
+task execute(type:JavaExec) {
+    main = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
+    classpath = sourceSets.main.runtimeClasspath
 }
