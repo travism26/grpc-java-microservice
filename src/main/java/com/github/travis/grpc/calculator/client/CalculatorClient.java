@@ -10,8 +10,6 @@ public class CalculatorClient {
 
     public static void main(String[] args) {
 
-        System.out.println("");
-
         ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052)
                 .usePlaintext()
                 .build();
