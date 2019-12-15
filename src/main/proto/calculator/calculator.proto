@@ -14,6 +14,17 @@ message SumResponse {
     int32 sum_result = 1;
 }
 
+message MultiplyRequest {
+    int32 first_number = 1;
+    int32 second_number = 2;
+}
+
+message MultiplyResponse {
+    int32 first_number = 1;
+    int32 second_number = 2;
+}
+
 service CalculatorService {
     rpc Sum(SumRequest) returns (SumResponse) {}
+    rpc Multiply(MultiplyRequest) returns (MultiplyResponse) {}
 }
