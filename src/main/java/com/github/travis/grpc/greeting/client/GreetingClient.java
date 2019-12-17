@@ -1,10 +1,7 @@
 package com.github.travis.grpc.greeting.client;
 
 import com.proto.dummy.DummyServiceGrpc;
-import com.proto.greet.GreetRequest;
-import com.proto.greet.GreetResponse;
-import com.proto.greet.GreetServiceGrpc;
-import com.proto.greet.Greeting;
+import com.proto.greet.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -27,21 +24,36 @@ public class GreetingClient {
         // Create a 'greet' service client (Blocking - synchronous)
         GreetServiceGrpc.GreetServiceBlockingStub greetClient = GreetServiceGrpc.newBlockingStub(channel);
 
-        // Created a protocol buffer greeting message
-        Greeting greeting = Greeting.newBuilder()
-                .setFirstName("T-rav")
-                .setLastName("Martin")
+        // This is Unary requests
+//        // Created a protocol buffer greeting message
+//        Greeting greeting = Greeting.newBuilder()
+//                .setFirstName("T-rav")
+//                .setLastName("Martin")
+//                .build();
+//
+//        // do the same for a greetingRequest
+//        GreetRequest greetRequest = GreetRequest.newBuilder()
+//                .setGreeting(greeting)
+//                .build();
+//
+//        // Call the RPC and get back the GreetResponse (protocol bufferes)
+//        GreetResponse greetResponse = greetClient.greet(greetRequest);
+//        // do something here
+//        System.out.println(greetResponse.getResult());
+
+        // Server streaming
+
+        // Prepare the request
+        GreetManyTimesRequest greetManyTimesRequest =
+                GreetManyTimesRequest.newBuilder()
+                .setGreeting(Greeting.newBuilder().setFirstName("T-rav"))
                 .build();
 
-        // do the same for a greetingRequest
-        GreetRequest greetRequest = GreetRequest.newBuilder()
-                .setGreeting(greeting)
-                .build();
-
-        // Call the RPC and get back the GreetResponse (protocol bufferes)
-        GreetResponse greetResponse = greetClient.greet(greetRequest);
-        // do something here
-        System.out.println(greetResponse.getResult());
+        // We stream the response (in a blocking manner)
+        greetClient.greetManyTimes(greetManyTimesRequest)
+                .forEachRemaining(greetManyTimesResponse -> {
+                    System.out.println(greetManyTimesResponse.getResult());
+                });
 
         System.out.println("Shutting down channel");
         channel.shutdown();
