@@ -1,8 +1,6 @@
 package com.github.travis.grpc.calculator.client;
 
-import com.proto.calculator.CalculatorServiceGrpc;
-import com.proto.calculator.SumRequest;
-import com.proto.calculator.SumResponse;
+import com.proto.calculator.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -25,6 +23,16 @@ public class CalculatorClient {
 
         System.out.println(request.getFirstNumber() + " + " + request.getSecondNumber() +
                 " = " + response.getSumResult());
+
+        MultiplyRequest multiplyRequest = MultiplyRequest.newBuilder()
+                .setFirstNumber(25)
+                .setSecondNumber(11)
+                .build();
+
+        MultiplyResponse multiplyResponse = stub.multiply(multiplyRequest);
+        System.out.println("Multiply:"+ multiplyRequest.getFirstNumber() + " * "
+                + multiplyRequest.getSecondNumber() +
+                " = "+ multiplyResponse.getMultiResult());
 
         channel.shutdown();
     }

@@ -20,8 +20,7 @@ message MultiplyRequest {
 }
 
 message MultiplyResponse {
-    int32 first_number = 1;
-    int32 second_number = 2;
+    int32 multi_result = 1;
 }
 
 service CalculatorService {
