@@ -34,6 +34,13 @@ public class CalculatorClient {
                 + multiplyRequest.getSecondNumber() +
                 " = "+ multiplyResponse.getMultiResult());
 
+        Integer num = 567890;
+        stub.primeNumberDecomposition(PrimeNumberDecompositionRequest.newBuilder()
+                .setNumber(num)
+                .build())
+                .forEachRemaining( primeFactor-> {
+                    System.out.println(primeFactor);
+        });
         channel.shutdown();
     }
 }
