@@ -34,7 +34,7 @@ public class CalculatorClient {
                 + multiplyRequest.getSecondNumber() +
                 " = "+ multiplyResponse.getMultiResult());
 
-        Integer num = 567890;
+        Integer num = 567890304;
         stub.primeNumberDecomposition(PrimeNumberDecompositionRequest.newBuilder()
                 .setNumber(num)
                 .build())
