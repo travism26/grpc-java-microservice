@@ -3,6 +3,7 @@ package com.github.travis.grpc.greeting.client;
 import com.proto.greet.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 public class GreetingClient {
 
@@ -56,5 +57,26 @@ public class GreetingClient {
                 .forEachRemaining(greetManyTimesResponse -> {
                     System.out.println(greetManyTimesResponse.getResult());
                 });
+    }
+
+    private void doClientStreamingCall(ManagedChannel channel) {
+
+        GreetServiceGrpc.GreetServiceStub asyncClient = GreetServiceGrpc.newStub(channel);
+        StreamObserver<LongGreetRequest> requestObserver = asyncClient.longGreet(new StreamObserver<LongGreetResponse>() {
+            @Override
+            public void onNext(LongGreetResponse value) {
+                // we get a response from the server
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                // we get an error from the server.
+            }
+
+            @Override
+            public void onCompleted() {
+                // the server is done sending us data.
+            }
+        });
     }
 }
