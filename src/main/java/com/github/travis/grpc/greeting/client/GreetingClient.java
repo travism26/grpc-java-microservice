@@ -5,6 +5,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import java.util.concurrent.CountDownLatch;
+
 public class GreetingClient {
 
     ManagedChannel channel;
@@ -65,7 +67,10 @@ public class GreetingClient {
         StreamObserver<LongGreetRequest> requestObserver = asyncClient.longGreet(new StreamObserver<LongGreetResponse>() {
             @Override
             public void onNext(LongGreetResponse value) {
-                // we get a response from the server
+                // we get a response from the server.
+
+                System.out.println("Received a response from the server");
+                System.out.println(value.getResult());
             }
 
             @Override
@@ -76,7 +81,24 @@ public class GreetingClient {
             @Override
             public void onCompleted() {
                 // the server is done sending us data.
+                // onCompleted will be called right after onNext()
+                System.out.println("Server has completed sending us stuff");
             }
         });
+        requestObserver.onNext(LongGreetRequest.newBuilder()
+                .setGreeting(Greeting.newBuilder()
+                        .setFirstName("Trav")
+                        .build())
+                .build());
+        requestObserver.onNext(LongGreetRequest.newBuilder()
+                .setGreeting(Greeting.newBuilder()
+                        .setFirstName("jen")
+                        .build())
+                .build());
+        requestObserver.onNext(LongGreetRequest.newBuilder()
+                .setGreeting(Greeting.newBuilder()
+                        .setFirstName("Marc")
+                        .build())
+                .build());
     }
 }
