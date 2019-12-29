@@ -80,6 +80,7 @@ public class GreetServiceImpl extends GreetServiceGrpc.GreetServiceImplBase {
                                 .setResult(result)
                                 .build()
                 );
+                responseObserver.onCompleted();
             }
         };
 //        return super.longGreet(responseObserver)
