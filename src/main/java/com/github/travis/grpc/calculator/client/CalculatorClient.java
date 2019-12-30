@@ -92,6 +92,7 @@ public class CalculatorClient {
 		requestObserver.onNext(ComputeAverageRequest.newBuilder()
 				.setNumber(10)
 				.build());
+		// 15 / 2 = 7.5
 		requestObserver.onCompleted();
 		
 		try {
