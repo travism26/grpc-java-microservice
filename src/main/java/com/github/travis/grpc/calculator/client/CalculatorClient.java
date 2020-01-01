@@ -22,7 +22,7 @@ public class CalculatorClient {
 //		getSumCall(channel);
 //		getMultiplyCall(channel);
 //		getPrimeNumberDecompositionCall(channel);
-		doClientStreamingCall(channel);
+//		doClientStreamingCall(channel);
 		channel.shutdown();
 	}
 	
@@ -100,5 +100,8 @@ public class CalculatorClient {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	private void doClientBiDiStreamingCall(ManagedChannel channel){
+	
 	}
 }

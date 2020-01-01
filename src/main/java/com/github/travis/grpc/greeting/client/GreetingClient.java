@@ -124,4 +124,27 @@ public class GreetingClient {
 			e.printStackTrace();
 		}
 	}
+	
+	private void doBiDiStreamingCall(ManagedChannel channel){
+		GreetServiceGrpc.GreetServiceStub asyncClient = GreetServiceGrpc.newStub(channel);
+		
+		CountDownLatch latch = new CountDownLatch(1);
+		
+		StreamObserver<GreetEveryoneRequest> requestObserver = asyncClient.greetEveryone(new StreamObserver<GreetEveryoneResponse>() {
+			@Override
+			public void onNext(GreetEveryoneResponse value) {
+			
+			}
+			
+			@Override
+			public void onError(Throwable t) {
+			
+			}
+			
+			@Override
+			public void onCompleted() {
+			
+			}
+		});
+	}
 }
