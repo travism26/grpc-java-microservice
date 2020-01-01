@@ -152,12 +152,17 @@ public class GreetingClient {
 		
 		Arrays.asList("Travis", "Martin", "Marky mark", "Jonny").forEach(
 				name -> {
-					System.out.println("Sending: " + name); 
+					System.out.println("Sending: " + name);
 					requestObserver.onNext(GreetEveryoneRequest.newBuilder()
 						.setGreeting(Greeting.newBuilder()
 								.setFirstName(name)
 								.build())
 						.build());
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 		);
 		
