@@ -102,6 +102,25 @@ public class CalculatorClient {
 		}
 	}
 	private void doClientBiDiStreamingCall(ManagedChannel channel){
-	
+		CalculatorServiceGrpc.CalculatorServiceStub asyncClient = CalculatorServiceGrpc.newStub(channel);
+		CountDownLatch latch = new CountDownLatch(1);
+		
+		StreamObserver<FindMaximumRequest> responseObserver = asyncClient.findMaximum(new StreamObserver<FindMaximumResponse>() {
+			@Override
+			public void onNext(FindMaximumResponse value) {
+			
+			}
+			
+			@Override
+			public void onError(Throwable t) {
+			
+			}
+			
+			@Override
+			public void onCompleted() {
+			
+			}
+		})
+		
 	}
 }
