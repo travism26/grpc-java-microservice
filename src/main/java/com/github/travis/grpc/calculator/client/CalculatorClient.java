@@ -113,7 +113,7 @@ public class CalculatorClient {
 			@Override
 			public void onNext(FindMaximumResponse value) {
 				// server sends message
-				System.out.println("Server send message: " + value.getMaximum());
+				System.out.println("Got a new maximum value: " + value.getMaximum());
 			}
 			
 			@Override
