@@ -17,14 +17,47 @@ Easiest way run navigate to root dir and run `gradle build` (if you have gradle 
 
 Simple project, learning gRPC
 ```
-Starting a Gradle Daemon, 1 busy and 1 stopped Daemons could not be reused, use --status for details
+Starting a Gradle Daemon, 2 busy and 1 stopped Daemons could not be reused, use --status for details
 
 > Task :execute
 Hello this is the gRPC Client
-Creating stub
-Good Morning T-rav
+Sending: Travis
+Sending: Martin
+Sending: Marky mark
+Sending: Jonny
+Response from server: Hello, Travis
+Response from server: Hello, Martin
+Response from server: Hello, Marky mark
+Response from server: Hello, Jonny
 Shutting down channel
-
 ```
 
+## Calculator client server stuff
+
+### Client
+I commented out most functions uncomment them to run.
+`./gradlew -PmainClass=com.github.travis.grpc.calculator.client.CalculatorClient execute`
+
+### Server
+`./gradlew -PmainClass=com.github.travis.grpc.calculator.server.CalculatorServer execute`
+
+### Output
+```
+Sending Nunber: 1
+Sending Nunber: 2
+Got a new maximum value: 1
+Got a new maximum value: 2
+Sending Nunber: 5
+Got a new maximum value: 5
+Sending Nunber: 1
+Sending Nunber: 10
+Got a new maximum value: 10
+Sending Nunber: 12
+Got a new maximum value: 12
+Sending Nunber: 9
+Sending Nunber: 7
+Sending Nunber: 6
+Got a new maximum value: 12
+Server Finished sending data
+```
 - SBT
