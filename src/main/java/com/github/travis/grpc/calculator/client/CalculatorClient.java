@@ -6,6 +6,9 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +26,7 @@ public class CalculatorClient {
 //		getMultiplyCall(channel);
 //		getPrimeNumberDecompositionCall(channel);
 //		doClientStreamingCall(channel);
+		doClientBiDiStreamingCall(channel);
 		channel.shutdown();
 	}
 	
@@ -105,22 +109,45 @@ public class CalculatorClient {
 		CalculatorServiceGrpc.CalculatorServiceStub asyncClient = CalculatorServiceGrpc.newStub(channel);
 		CountDownLatch latch = new CountDownLatch(1);
 		
-		StreamObserver<FindMaximumRequest> responseObserver = asyncClient.findMaximum(new StreamObserver<FindMaximumResponse>() {
+		StreamObserver<FindMaximumRequest> requestObserver = asyncClient.findMaximum(new StreamObserver<FindMaximumResponse>() {
 			@Override
 			public void onNext(FindMaximumResponse value) {
-			
+				// server sends message
+				System.out.println("Server send message: " + value.getMaximum());
 			}
 			
 			@Override
 			public void onError(Throwable t) {
-			
+				// server send error
+				latch.countDown();
 			}
 			
 			@Override
 			public void onCompleted() {
-			
+//				server finished sending data
+				System.out.println("Server Finished sending data");
+				latch.countDown();
 			}
-		})
+		});
 		
+		Arrays.asList(1, 2, 5, 1, 10, 12, 9, 7, 6).forEach(
+				number -> {
+					System.out.println("Sending Nunber: "+ number);
+					requestObserver.onNext(FindMaximumRequest.newBuilder()
+							.setNumber(number)
+							.build());
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+		);
+		
+		try {
+			latch.await(3, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
