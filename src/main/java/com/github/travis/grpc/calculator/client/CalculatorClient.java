@@ -144,6 +144,8 @@ public class CalculatorClient {
 				}
 		);
 		
+		requestObserver.onCompleted();
+		
 		try {
 			latch.await(3, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
