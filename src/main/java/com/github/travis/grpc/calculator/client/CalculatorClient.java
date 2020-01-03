@@ -4,6 +4,7 @@ import com.proto.calculator.*;
 import com.proto.greet.GreetServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
 import java.lang.reflect.Array;
@@ -18,6 +19,7 @@ public class CalculatorClient {
 		CalculatorClient obj = new CalculatorClient();
 		obj.run();
 	}
+	
 	public void run() {
 		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50052)
 				.usePlaintext()
@@ -26,7 +28,8 @@ public class CalculatorClient {
 //		getMultiplyCall(channel);
 //		getPrimeNumberDecompositionCall(channel);
 //		doClientStreamingCall(channel);
-		doClientBiDiStreamingCall(channel);
+//		doClientBiDiStreamingCall(channel);
+		doErrorCall(channel);
 		channel.shutdown();
 	}
 	
@@ -42,6 +45,7 @@ public class CalculatorClient {
 		System.out.println(request.getFirstNumber() + " + " + request.getSecondNumber() +
 				" = " + response.getSumResult());
 	}
+	
 	private void getMultiplyCall(ManagedChannel channel) {
 		CalculatorServiceGrpc.CalculatorServiceBlockingStub stub = CalculatorServiceGrpc.newBlockingStub(channel);
 		
@@ -55,6 +59,7 @@ public class CalculatorClient {
 				+ multiplyRequest.getSecondNumber() +
 				" = " + multiplyResponse.getMultiResult());
 	}
+	
 	private void getPrimeNumberDecompositionCall(ManagedChannel channel) {
 		CalculatorServiceGrpc.CalculatorServiceBlockingStub stub = CalculatorServiceGrpc.newBlockingStub(channel);
 		
@@ -66,6 +71,7 @@ public class CalculatorClient {
 					System.out.println(primeFactor);
 				});
 	}
+	
 	private void doClientStreamingCall(ManagedChannel channel) {
 		CalculatorServiceGrpc.CalculatorServiceStub asyncClient = CalculatorServiceGrpc.newStub(channel);
 		
@@ -79,7 +85,7 @@ public class CalculatorClient {
 			
 			@Override
 			public void onError(Throwable t) {
-			// this is if server receives an error...
+				// this is if server receives an error...
 			}
 			
 			@Override
@@ -105,7 +111,8 @@ public class CalculatorClient {
 			e.printStackTrace();
 		}
 	}
-	private void doClientBiDiStreamingCall(ManagedChannel channel){
+	
+	private void doClientBiDiStreamingCall(ManagedChannel channel) {
 		CalculatorServiceGrpc.CalculatorServiceStub asyncClient = CalculatorServiceGrpc.newStub(channel);
 		CountDownLatch latch = new CountDownLatch(1);
 		
@@ -132,7 +139,7 @@ public class CalculatorClient {
 		
 		Arrays.asList(1, 2, 5, 1, 10, 12, 9, 7, 6).forEach(
 				number -> {
-					System.out.println("Sending Nunber: "+ number);
+					System.out.println("Sending Nunber: " + number);
 					requestObserver.onNext(FindMaximumRequest.newBuilder()
 							.setNumber(number)
 							.build());
@@ -149,6 +156,19 @@ public class CalculatorClient {
 		try {
 			latch.await(3, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void doErrorCall(ManagedChannel channel) {
+		CalculatorServiceGrpc.CalculatorServiceBlockingStub blockingStub = CalculatorServiceGrpc.newBlockingStub(channel);
+		int number = -1;
+		try {
+			blockingStub.squareRoot(SquareRootRequest.newBuilder()
+					.setNumber(number)
+					.build());
+		} catch (StatusRuntimeException e) {
+			System.out.println("Got an exception for square root!");
 			e.printStackTrace();
 		}
 	}
