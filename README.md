@@ -5,7 +5,7 @@
 - Java 8 ish
 
 # How to run
-Easiest way run navigate to root dir and run `gradle build` (if you have gradle installed else used provided `gradlew`)
+Easiest way run navigate to root dir and run `gradle build` (if you have gradle installed else used provided `gradlew`) NOTE I added some ssl security to grpc calls please see the `ssl/instructions.sh` to generate your certs.
 1) Navigate to cloned project root dir.
 2) `./gradlew build`
 3) Start the server
