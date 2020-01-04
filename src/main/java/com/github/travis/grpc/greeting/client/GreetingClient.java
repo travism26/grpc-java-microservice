@@ -22,10 +22,10 @@ public class GreetingClient {
 		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
 				.usePlaintext()
 				.build();
-		//doUnaryCall(channel);
-		//doServerStreamingCall(channel);
-//		doClientStreamingCall(channel);
-//		doBiDiStreamingCall(channel);
+		doUnaryCall(channel);
+		doServerStreamingCall(channel);
+		doClientStreamingCall(channel);
+		doBiDiStreamingCall(channel);
 		doUnaryCallWithDeadline(channel);
 		System.out.println("Shutting down channel");
 		channel.shutdown();
