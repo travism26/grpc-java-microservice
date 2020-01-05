@@ -23,16 +23,16 @@ public class GreetingClient {
 	}
 	
 	public void run() throws SSLException {
-//		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
-//				.usePlaintext()
-//				.build();
+		ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
+				.usePlaintext()
+				.build();
 		
-		ManagedChannel channel = NettyChannelBuilder.forAddress("localhost", 50051)
+		ManagedChannel secureChannel = NettyChannelBuilder.forAddress("localhost", 50051)
 				.sslContext(GrpcSslContexts.forClient().trustManager(new File("ssl/ca.crt")).build())
 				.build();
 		
-		doUnaryCall(channel);
-		doServerStreamingCall(channel);
+		doUnaryCall(secureChannel);
+		doServerStreamingCall(secureChannel);
 		doClientStreamingCall(channel);
 		doBiDiStreamingCall(channel);
 		doUnaryCallWithDeadline(channel);
