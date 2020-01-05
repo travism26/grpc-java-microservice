@@ -42,6 +42,7 @@ public class BlogClient {
 		
 		System.out.println(readBlogResponse.toString());
 		
+		// trigger NOT FOUND ERROR
 //		System.out.println("Looking for a blog that does NOT exist");
 //		ReadBlogResponse readBlogResponseNotFound = blogClient.readBlog(ReadBlogRequest.newBuilder()
 //				.setBlogId("5e1261a1203df50f4f9d470f")
