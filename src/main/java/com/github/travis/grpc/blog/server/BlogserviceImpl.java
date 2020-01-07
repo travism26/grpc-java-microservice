@@ -161,6 +161,18 @@ public class BlogserviceImpl extends BlogServiceGrpc.BlogServiceImplBase {
 		}
 	}
 	
+	@Override
+	public void listBlog(ListBlogRequest request, StreamObserver<ListBlogResponse> responseObserver) {
+		System.out.println("Recieved a list blogs request");
+		
+		collection.find().iterator().forEachRemaining(document -> {
+			responseObserver.onNext(ListBlogResponse.newBuilder()
+					.setBlog(DocumentToBlog(document))
+					.build());
+		});
+		responseObserver.onCompleted();
+	}
+	
 	private Blog DocumentToBlog(Document document) {
 		return Blog.newBuilder()
 				.setAuthorId(document.getString("author_id"))

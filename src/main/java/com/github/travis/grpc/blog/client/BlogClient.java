@@ -50,25 +50,8 @@ public class BlogClient {
 //		System.out.println(readBlogResponseNotFound.toString());
 		
 		//doUpdateClientCall(channel);
-		doDeleteClientCall(channel);
-	}
-	
-	private void doDeleteClientCall(ManagedChannel channel) {
-		BlogServiceGrpc.BlogServiceBlockingStub blogClient = BlogServiceGrpc.newBlockingStub(channel);
-		//ObjectId("5e13d07510dc4e2b8bde9576")
-		
-		CreateBlogResponse createBlogResponse = blogClient.createBlog(CreateBlogRequest.newBuilder()
-				.setBlog(Blog.newBuilder()
-						.setAuthorId("This will be deleted")
-						.setContent("This is the content")
-						.setTitle("Hello world Title")
-				).build());
-		
-		String blogIdToDelete = createBlogResponse.getBlog().getId();
-		
-		System.out.println("Deleting a blog with id: "+ blogIdToDelete);
-		DeleteBlogResponse deleteBlogResponse = blogClient.deleteBlog(DeleteBlogRequest.newBuilder().setBlogId(blogIdToDelete).build());
-		System.out.println(deleteBlogResponse.toString());
+//		doDeleteClientCall(channel);
+		doListBlogClientCall(channel);
 	}
 	
 	public void doUpdateClientCall(ManagedChannel channel) {
@@ -104,6 +87,34 @@ public class BlogClient {
 		
 		System.out.println("Updated the blog!");
 		System.out.println(updateBlogResponse.toString());
+	}
+	
+	private void doDeleteClientCall(ManagedChannel channel) {
+		BlogServiceGrpc.BlogServiceBlockingStub blogClient = BlogServiceGrpc.newBlockingStub(channel);
+		//ObjectId("5e13d07510dc4e2b8bde9576")
+		
+		CreateBlogResponse createBlogResponse = blogClient.createBlog(CreateBlogRequest.newBuilder()
+				.setBlog(Blog.newBuilder()
+						.setAuthorId("This will be deleted")
+						.setContent("This is the content")
+						.setTitle("Hello world Title")
+				).build());
+		
+		String blogIdToDelete = createBlogResponse.getBlog().getId();
+		
+		System.out.println("Deleting a blog with id: " + blogIdToDelete);
+		DeleteBlogResponse deleteBlogResponse = blogClient.deleteBlog(DeleteBlogRequest.newBuilder().setBlogId(blogIdToDelete).build());
+		System.out.println(deleteBlogResponse.toString());
+	}
+	
+	private void doListBlogClientCall(ManagedChannel channel) {
+		BlogServiceGrpc.BlogServiceBlockingStub clientBlog = BlogServiceGrpc.newBlockingStub(channel);
+		
+		clientBlog.listBlog(
+				ListBlogRequest.newBuilder().build())
+				.forEachRemaining(listBlogResponse -> {
+					System.out.println(listBlogResponse.toString());
+				});
 		
 	}
 }
