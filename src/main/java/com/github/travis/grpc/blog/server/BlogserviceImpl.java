@@ -112,7 +112,8 @@ public class BlogserviceImpl extends BlogServiceGrpc.BlogServiceImplBase {
 		} else {
 			Document replacement = new Document("author_id", blog.getAuthorId())
 					.append("title", blog.getTitle())
-					.append("content", blog.getContent());
+					.append("content", blog.getContent())
+					.append("_id", new ObjectId(blogId));
 			
 			collection.replaceOne(eq("_id", result.getObjectId("_id")), replacement);
 			
