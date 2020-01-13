@@ -32,6 +32,24 @@ dependencies {
 	compile group: 'org.mongodb', name: 'mongodb-driver-sync', version: '3.12.0'
 	
 }
+sourceSets {
+	main {
+		proto {
+			srcDir 'proto'
+		}
+		java {
+			srcDir 'src/main/java'
+		}
+	}
+	test {
+		proto {
+			srcDir 'proto'
+		}
+		proto {
+			srcDir 'src/test/java'
+		}
+	}
+}
 
 protobuf {
 	protoc {
@@ -45,6 +63,7 @@ protobuf {
 	generateProtoTasks {
 		all()*.plugins {
 			grpc {}
+			ofSourceSet('main')
 		}
 	}
 }
