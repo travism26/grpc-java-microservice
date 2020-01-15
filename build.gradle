@@ -38,7 +38,7 @@ sourceSets {
 			srcDir 'proto'
 		}
 		java {
-			srcDir 'src/main/java'
+			srcDir 'build/'
 		}
 	}
 	test {
