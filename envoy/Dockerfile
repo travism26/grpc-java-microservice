@@ -1,4 +1,4 @@
-FROM envoyproxy/envoy:v1.9.0
+FROM envoyproxy/envoy:latest
+RUN apt-get update
 COPY envoy.yaml /etc/envoy.yaml
-COPY ./keys /keys
 CMD /usr/local/bin/envoy -c /etc/envoy.yaml
