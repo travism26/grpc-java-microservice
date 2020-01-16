@@ -61,6 +61,15 @@ Got a new maximum value: 12
 Server Finished sending data
 ```
 
+# Running blog services # WIP #
+1) Need to start the backend service
+2) Create envoy proxy docker container
+    - `cd envoy`
+    - `sudo -E docker build -t envoy:v1 .`
+    - Run docker container`sudo docker run  -p 8080:8080 --net=host  envoy:v1`
+3) start the UI 
+    - Navigate to client-ui run: `yarn serve`
+4) Errors? :( install dependencies in client-ui `npm install` and rerun.
 
 # Creating my Fontend
 
