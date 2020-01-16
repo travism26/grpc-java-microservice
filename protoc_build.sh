@@ -1,10 +1,7 @@
 ROOTDIR=`pwd`
 #brew install protobuf
 function build_client_js_files() {
-    cd $ROOTDIR
-    cd proto/blog # Some reason there is an issue when building protoc outside of the dir
-    echo "Generating JS file to $ROOTDIR/client/output"
-    protoc -I=. blog.proto --js_out=import_style=commonjs:../../client/output/ --grpc-web_out=import_style=commonjs,mode=grpcwebtext:../../client/output
+    protoc --proto_path=proto/blog --js_out=import_style=commonjs,binary:client/src/ --grpc-web_out=import_style=commonjs,mode=grpcwebtext:client/src/ proto/blog/blog.proto
 }
 
 function build_java_class() {
@@ -13,4 +10,4 @@ function build_java_class() {
 }
 
 build_client_js_files
-build_java_class # Not working for some reason... gradlew not a command eh.
+build_java_class
