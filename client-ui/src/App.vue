@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    <span class="title-text">Blog admin page</span>
+    <div class="row justify-content-center mt-4">
+      <input v-model="inputField" v-on=keyup.enter="createBlog" class="mr-1" placeholder="Create Blog Title" >
+    </div>
   </div>
 </template>
 
